@@ -1,117 +1,107 @@
-# System Resource Monitor & Performance Analyzer
+# System Monitor
 
-A production-ready **C++ console application** that monitors system resources in real-time,
-manages processes, generates performance reports, and alerts on threshold breaches.
+System Monitor is a desktop application built with C++ and Qt 6 for monitoring CPU, memory, disk, and running processes in real time. It provides a graphical dashboard, process management tools, system information views, alerting, and report generation for system performance analysis.
 
-## Features Implemented
+## Features
 
-| # | Feature | Status |
-|---|---------|--------|
-| 1 | System Information (OS, CPU, RAM, Disk, Hostname, Uptime) | ✅ |
-| 2 | CPU Monitoring (usage %, cores, history, avg, peak) | ✅ |
-| 3 | Memory Monitoring (total/used/free/%, swap) | ✅ |
-| 4 | Disk Monitoring (per-drive + aggregate, %) | ✅ |
-| 5 | Process Manager (list/search/sort/terminate) | ✅ |
-| 6 | Performance Logging (timestamped, filterable by date) | ✅ |
-| 7 | Report Generation (Daily, Health, CPU, Memory, Resource — CSV + TXT) | ✅ |
-| 8 | Alert System (configurable thresholds + cooldown) | ✅ |
-| 9 | Search & Statistics (trend analysis, date filter, stddev) | ✅ |
-| 10 | Configuration Management (ini file, runtime changes, save) | ✅ |
+- Real-time monitoring of CPU, memory, and disk usage
+- Live charts and resource trend visualization
+- Process listing with filtering and termination support
+- System information summary including OS, hardware, and uptime
+- Configurable alert thresholds for CPU, memory, and disk usage
+- Report generation for daily and resource-specific performance data
+- Persistent settings stored in a configuration file
+
+## Project Overview
+
+This project is organized around a modular C++ architecture:
+
+- Core monitoring logic in the include and src folders
+- Qt-based UI components in src/ui
+- Background worker thread logic in src/core
+- Runtime configuration, logs, and reports under config, logs, and reports
 
 ## Technology Stack
 
-- **Language**: C++17
-- **Build**: CMake 3.10+
-- **OS APIs**: WinAPI (`GetSystemTimes`, `GlobalMemoryStatusEx`, `GetDiskFreeSpaceEx`, `ToolHelp32`, `PSAPI`, `RegOpenKeyEx`)
-- **Threading**: `std::thread`, `std::atomic`, `std::mutex`
-- **UI**: ANSI console TUI (VT100 escape codes, enabled via `ENABLE_VIRTUAL_TERMINAL_PROCESSING`)
+- Language: C++17
+- UI Framework: Qt 6 (Core, Gui, Widgets, Charts)
+- Build System: CMake
+- Platform: Windows-focused, with Windows API support for system metrics
 
-## Build Instructions
+## Prerequisites
 
-### Option A – CMake (Recommended)
+Before building the project, make sure you have:
 
-```cmd
+1. A C++17 compiler
+2. CMake 3.16 or newer
+3. Qt 6 installed with the following modules:
+   - Core
+   - Gui
+   - Widgets
+   - Charts
+
+## Building the Project
+
+### Option 1: Qt Creator
+
+1. Open Qt Creator.
+2. Open the CMake project by selecting the project root CMakeLists.txt file.
+3. Configure the project with a Qt 6 desktop kit.
+4. Build and run the application.
+
+### Option 2: CMake from the Command Line
+
+On Windows, you can build it with:
+
+```bash
 mkdir build
 cd build
-cmake .. -G "Visual Studio 17 2022" -A x64
-cmake --build . --config Release
-cd Release
-sysmon.exe
+cmake .. -G "MinGW Makefiles"
+cmake --build . --config Debug
 ```
 
-### Option B – Visual Studio (CMake integration)
+If you are using Visual Studio generators, replace the generator line with the appropriate Visual Studio version.
 
-1. Open Visual Studio 2019/2022
-2. `File > Open > CMake...` → select `CMakeLists.txt`
-3. Visual Studio auto-configures from CMakeLists.txt
-4. `Build > Build All` (Ctrl+Shift+B)
-5. Run `sysmon.exe`
+## Running the Application
 
-> **Note:** Requires Windows 10+ for full ANSI color support.  
-> Run in Windows Terminal or a modern console for best display.
+After building, run the generated executable from the build output directory. The application will load its configuration from the config folder and generate reports and logs at runtime.
 
 ## Project Structure
 
-```
-system-monitor/
-├── include/                 # Header files
-│   ├── Config.h
-│   ├── Logger.h
-│   ├── SystemInfo.h
-│   ├── CpuMonitor.h
-│   ├── MemoryMonitor.h
-│   ├── DiskMonitor.h
-│   ├── ProcessManager.h
-│   ├── AlertSystem.h
-│   ├── ReportGenerator.h
-│   ├── PerformanceStats.h
-│   └── Display.h
-├── src/                     # Source implementations
-│   ├── main.cpp             # Application entry + interactive menu
-│   ├── Config.cpp
-│   ├── Logger.cpp
-│   ├── SystemInfo.cpp
-│   ├── CpuMonitor.cpp
-│   ├── MemoryMonitor.cpp
-│   ├── DiskMonitor.cpp
-│   ├── ProcessManager.cpp
-│   ├── AlertSystem.cpp
-│   ├── ReportGenerator.cpp
-│   ├── PerformanceStats.cpp
-│   └── Display.cpp
-├── config/
-│   └── config.ini           # Runtime configuration
-├── logs/                    # Auto-created: timestamped log files
-├── reports/                 # Auto-created: CSV + TXT reports
-├── CMakeLists.txt
-└── README.md
+```text
+System-Moniter/
+├── config/           # Runtime configuration files
+├── docs/             # Design and architecture notes
+├── include/          # Header files for system monitoring modules
+├── logs/             # Log output directory
+├── reports/          # Generated reports
+├── scripts/          # Build or utility scripts
+├── src/              # Source code
+│   ├── core/         # Worker/threading logic
+│   ├── ui/           # Qt UI widgets and windows
+│   └── *.cpp         # Monitoring and support modules
+├── CMakeLists.txt    # Build configuration
+└── README.md         # Project documentation
 ```
 
-## Configuration (`config/config.ini`)
+## Configuration
+
+Application settings can be adjusted through the Settings tab in the UI or by editing the configuration file in the config directory.
+
+Example:
 
 ```ini
-monitor_interval_ms=1000        # Polling interval in ms
-log_file=logs/sysmon.log        # Log output path
-report_dir=reports              # Report output directory
-alert_cpu_threshold=85.0        # CPU alert threshold (%)
-alert_mem_threshold=85.0        # Memory alert threshold (%)
-alert_disk_threshold=90.0       # Disk alert threshold (%)
-alert_cooldown_secs=60          # Seconds between repeated alerts
+UpdateIntervalMs=2000
+CpuAlertThreshold=85.0
+MemAlertThreshold=85.0
+DiskAlertThreshold=90.0
 ```
 
-## Menu Overview
+## Notes
 
-```
-[1]  System Information
-[2]  Real-time Dashboard     ← live refresh, CPU sparkline, all resources
-[3]  CPU Monitor Details     ← model, cores, history, avg, peak
-[4]  Memory Monitor Details  ← RAM + swap breakdown
-[5]  Disk Monitor Details    ← per-drive usage
-[6]  Process Manager         ← list / search / sort / terminate
-[7]  Performance Logs        ← view entries, filter by date, alert history
-[8]  Generate Report         ← 5 report types in CSV + TXT
-[9]  Alert Configuration     ← set thresholds, cooldown, test alerts
-[10] Search & Statistics     ← trends, date range, stddev analysis
-[11] Configuration Settings  ← runtime config + save to file
-[0]  Exit
-```
+- Generated build output, logs, and reports are intended to be ignored by Git.
+- You may need to adjust Qt paths depending on your local environment.
+
+## License
+
+This project is intended for educational and development purposes.

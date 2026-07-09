@@ -73,6 +73,12 @@ void Logger::info(const std::string& msg)  { log(LogLevel::INFO,      msg); }
 void Logger::warn(const std::string& msg)  { log(LogLevel::WARN,      msg); }
 void Logger::error(const std::string& msg) { log(LogLevel::ERROR_LVL, msg); }
 
+void Logger::setLogFile(const std::string& path) {
+    std::lock_guard<std::mutex> lk(mtx_);
+    if (ofs_.is_open()) ofs_.close();
+    ofs_.open(path, std::ios::app);
+}
+
 // ──────────────────────────────────────────────────────────────────────────────
 // History access
 // ──────────────────────────────────────────────────────────────────────────────

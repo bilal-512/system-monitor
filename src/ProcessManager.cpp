@@ -5,8 +5,12 @@
 #include <chrono>
 
 #ifdef _WIN32
-#   define NOMINMAX
-#   define WIN32_LEAN_AND_MEAN
+#   ifndef NOMINMAX
+#       define NOMINMAX
+#   endif
+#   ifndef WIN32_LEAN_AND_MEAN
+#       define WIN32_LEAN_AND_MEAN
+#   endif
 #   include <windows.h>
 #   include <tlhelp32.h>
 #   include <psapi.h>
@@ -54,7 +58,12 @@ void ProcessManager::refresh() {
             do {
                 ProcessInfo pi;
                 pi.pid         = pe.th32ProcessID;
+#ifdef UNICODE
+                std::wstring ws(pe.szExeFile);
+                pi.name = std::string(ws.begin(), ws.end());
+#else
                 pi.name        = pe.szExeFile;
+#endif
                 pi.threadCount = pe.cntThreads;
                 pi.status      = "Running";
 

@@ -1,13 +1,81 @@
+# Build and output directories
 build/
+out/
 bin/
-*.o
-*.exe
-*.log
-/.vscode/
-/.idea/
-.vs/
-bin/
+lib/
+Debug/
+Release/
+x64/
+x86/
 obj/
+*.dir/
 
-*.user
+# CMake / Ninja / Makefiles
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+*.ninja
+compile_commands.json
+Testing/
+ctest_test_files/
+
+# Qt / CMake generated files
+moc_*
+qrc_*.cpp
+ui_*.h
+*.autosave
+*.pro.user*
+*.qrc.depends
+*.qmlc
+*.jsc
+*.app
+
+# Visual Studio / IDE files
+.vs/
+.vscode/
+.idea/
+*.sln
+*.vcxproj*
+*.vcxproj.filters
 *.suo
+*.user
+*.userosscache
+*.sdf
+*.opensdf
+*.opendb
+*.VC.db
+*.db
+
+# Compiled object and binary files
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dylib
+*.dll
+*.exe
+*.ilk
+*.pdb
+*.exp
+*.tmp
+*.cache
+
+# Logs and runtime artifacts
+*.log
+logs/*
+!logs/.gitkeep
+reports/*.csv
+reports/*.txt
+!reports/README.md
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Patch / merge artifacts
+*.orig
+*.rej

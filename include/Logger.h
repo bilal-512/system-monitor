@@ -27,6 +27,8 @@ public:
     void info(const std::string& msg);
     void warn(const std::string& msg);
     void error(const std::string& msg);
+    
+    void setLogFile(const std::string& path);
 
     // Retrieve recent log entries for display/search
     std::deque<LogEntry> getEntries() const;

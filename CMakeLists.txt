@@ -1,8 +1,15 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 project(sysmon_cpp VERSION 1.0 LANGUAGES CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+# Enable Qt features
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTORCC ON)
+set(CMAKE_AUTOUIC ON)
+
+find_package(Qt6 COMPONENTS Core Gui Widgets Charts REQUIRED)
 
 include_directories(${PROJECT_SOURCE_DIR}/include)
 
@@ -18,18 +25,27 @@ set(SOURCES
     src/AlertSystem.cpp
     src/ReportGenerator.cpp
     src/PerformanceStats.cpp
-    src/Display.cpp
+    
+    # Qt UI sources
+    src/ui/MainWindow.cpp
+    src/ui/ChartWidget.cpp
+    src/core/MonitorWorker.cpp
 )
 
-add_executable(sysmon ${SOURCES})
+# Optional: define a Qt resource file for styling
+set(RESOURCES
+    src/ui/resources.qrc
+)
+
+add_executable(sysmon WIN32 ${SOURCES} ${RESOURCES})
 
 find_package(Threads REQUIRED)
-target_link_libraries(sysmon Threads::Threads)
+target_link_libraries(sysmon PRIVATE Threads::Threads Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Charts)
 
 if(WIN32)
     # psapi  – GetProcessMemoryInfo
     # advapi32 – RegOpenKeyEx (CPU model from registry)
-    target_link_libraries(sysmon psapi advapi32)
+    target_link_libraries(sysmon PRIVATE psapi advapi32)
 endif()
 
 # Copy config directory next to the binary so the app can find config.ini

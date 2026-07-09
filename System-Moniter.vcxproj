@@ -139,7 +139,30 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Config.cpp" />
+    <ClCompile Include="src\CpuMonitor.cpp" />
+    <ClCompile Include="src\Logger.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\SystemInfo.cpp" />
     <ClCompile Include="System-Moniter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="CMakeLists.txt" />
+    <Text Include="logs\sample.log" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".gitignore" />
+    <None Include="config\config.ini" />
+    <None Include="docs\architecture.md" />
+    <None Include="README.md" />
+    <None Include="reports\README.md" />
+    <None Include="scripts\build.sh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\Config.h" />
+    <ClInclude Include="include\CpuMonitor.h" />
+    <ClInclude Include="include\Logger.h" />
+    <ClInclude Include="include\SystemInfo.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

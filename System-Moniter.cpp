@@ -1,20 +1,21 @@
-// System-Moniter.cpp : This file contains the 'main' function. Program execution begins and ends there.
-//
+/**
+ * System-Moniter.cpp
+ *
+ * NOTE: This Visual Studio entry-point file is a placeholder.
+ *       The actual application lives in src/main.cpp.
+ *
+ * To build this project in Visual Studio:
+ *   1. Open CMakeLists.txt via  File > Open > CMake...
+ *      Visual Studio will auto-configure the project from CMakeLists.txt.
+ *   2. Build with  Build > Build All  (Ctrl+Shift+B)
+ *   3. Run sysmon.exe from the build output folder.
+ *
+ * Alternatively, use CMake from the command line:
+ *   mkdir build && cd build
+ *   cmake .. -G "Visual Studio 17 2022" -A x64
+ *   cmake --build . --config Release
+ *   .\Release\sysmon.exe
+ */
 
-#include <iostream>
-
-int main()
-{
-    std::cout << "Hello World!\n";
-}
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
+// This file is intentionally left without a main() to avoid duplicate symbol
+// errors when building via CMake. All logic is in src/main.cpp.

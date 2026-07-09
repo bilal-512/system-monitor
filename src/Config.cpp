@@ -2,45 +2,93 @@
 #include <fstream>
 #include <sstream>
 #include <algorithm>
+#include <stdexcept>
 
 namespace sysmon {
 
-static inline std::string trim(const std::string &s) {
-	size_t a = s.find_first_not_of(" \t\r\n");
-	if (a == std::string::npos) return "";
-	size_t b = s.find_last_not_of(" \t\r\n");
-	return s.substr(a, b - a + 1);
+// ──────────────────────────────────────────────────────────────────────────────
+// Internal helpers
+// ──────────────────────────────────────────────────────────────────────────────
+static std::string trim(const std::string& s) {
+    const char* ws = " \t\r\n";
+    size_t a = s.find_first_not_of(ws);
+    if (a == std::string::npos) return "";
+    size_t b = s.find_last_not_of(ws);
+    return s.substr(a, b - a + 1);
 }
 
-bool Config::loadFromFile(const std::string &path) {
-	std::ifstream ifs(path);
-	if (!ifs.is_open()) return false;
-	std::string line;
-	while (std::getline(ifs, line)) {
-		auto pos = line.find('=');
-		if (pos == std::string::npos) continue;
-		std::string k = trim(line.substr(0, pos));
-		std::string v = trim(line.substr(pos + 1));
-		if (k.empty()) continue;
-		data_[k] = v;
-	}
-	return true;
+// ──────────────────────────────────────────────────────────────────────────────
+// Load / Save
+// ──────────────────────────────────────────────────────────────────────────────
+bool Config::loadFromFile(const std::string& path) {
+    filePath_ = path;
+    std::ifstream ifs(path);
+    if (!ifs.is_open()) return false;
+    std::string line;
+    while (std::getline(ifs, line)) {
+        // Skip comments and blank lines
+        std::string t = trim(line);
+        if (t.empty() || t[0] == '#' || t[0] == ';') continue;
+        auto pos = t.find('=');
+        if (pos == std::string::npos) continue;
+        std::string k = trim(t.substr(0, pos));
+        std::string v = trim(t.substr(pos + 1));
+        // Strip inline comments
+        auto cpos = v.find('#');
+        if (cpos != std::string::npos) v = trim(v.substr(0, cpos));
+        if (k.empty()) continue;
+        data_[k] = v;
+    }
+    return true;
 }
 
-std::string Config::get(const std::string &key, const std::string &def) const {
-	auto it = data_.find(key);
-	if (it == data_.end()) return def;
-	return it->second;
+bool Config::saveToFile(const std::string& path) const {
+    const std::string& target = path.empty() ? filePath_ : path;
+    if (target.empty()) return false;
+    std::ofstream ofs(target);
+    if (!ofs.is_open()) return false;
+    ofs << "# System Resource Monitor Configuration\n";
+    for (auto& [k, v] : data_) {
+        ofs << k << "=" << v << "\n";
+    }
+    return true;
 }
 
-int Config::getInt(const std::string &key, int def) const {
-	auto s = get(key);
-	if (s.empty()) return def;
-	try {
-		return std::stoi(s);
-	} catch (...) {
-		return def;
-	}
+// ──────────────────────────────────────────────────────────────────────────────
+// Getters
+// ──────────────────────────────────────────────────────────────────────────────
+std::string Config::get(const std::string& key, const std::string& def) const {
+    auto it = data_.find(key);
+    return (it != data_.end()) ? it->second : def;
+}
+
+int Config::getInt(const std::string& key, int def) const {
+    std::string s = get(key);
+    if (s.empty()) return def;
+    try { return std::stoi(s); } catch (...) { return def; }
+}
+
+double Config::getDouble(const std::string& key, double def) const {
+    std::string s = get(key);
+    if (s.empty()) return def;
+    try { return std::stod(s); } catch (...) { return def; }
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Setters
+// ──────────────────────────────────────────────────────────────────────────────
+void Config::set(const std::string& key, const std::string& value) {
+    data_[key] = value;
+}
+
+void Config::setInt(const std::string& key, int value) {
+    data_[key] = std::to_string(value);
+}
+
+void Config::setDouble(const std::string& key, double value) {
+    std::ostringstream ss;
+    ss << value;
+    data_[key] = ss.str();
 }
 
 } // namespace sysmon

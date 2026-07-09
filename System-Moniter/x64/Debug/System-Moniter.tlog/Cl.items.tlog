@@ -1,0 +1,12 @@
+D:\Bilal\Project\system-monitor\src\main.cpp;D:\Bilal\Project\system-monitor\System-Moniter\x64\Debug\main.obj
+D:\Bilal\Project\system-monitor\src\Config.cpp;D:\Bilal\Project\system-monitor\System-Moniter\x64\Debug\Config.obj
+D:\Bilal\Project\system-monitor\src\Logger.cpp;D:\Bilal\Project\system-monitor\System-Moniter\x64\Debug\Logger.obj
+D:\Bilal\Project\system-monitor\src\SystemInfo.cpp;D:\Bilal\Project\system-monitor\System-Moniter\x64\Debug\SystemInfo.obj
+D:\Bilal\Project\system-monitor\src\CpuMonitor.cpp;D:\Bilal\Project\system-monitor\System-Moniter\x64\Debug\CpuMonitor.obj
+D:\Bilal\Project\system-monitor\src\MemoryMonitor.cpp;D:\Bilal\Project\system-monitor\System-Moniter\x64\Debug\MemoryMonitor.obj
+D:\Bilal\Project\system-monitor\src\DiskMonitor.cpp;D:\Bilal\Project\system-monitor\System-Moniter\x64\Debug\DiskMonitor.obj
+D:\Bilal\Project\system-monitor\src\ProcessManager.cpp;D:\Bilal\Project\system-monitor\System-Moniter\x64\Debug\ProcessManager.obj
+D:\Bilal\Project\system-monitor\src\AlertSystem.cpp;D:\Bilal\Project\system-monitor\System-Moniter\x64\Debug\AlertSystem.obj
+D:\Bilal\Project\system-monitor\src\ReportGenerator.cpp;D:\Bilal\Project\system-monitor\System-Moniter\x64\Debug\ReportGenerator.obj
+D:\Bilal\Project\system-monitor\src\PerformanceStats.cpp;D:\Bilal\Project\system-monitor\System-Moniter\x64\Debug\PerformanceStats.obj
+D:\Bilal\Project\system-monitor\src\Display.cpp;D:\Bilal\Project\system-monitor\System-Moniter\x64\Debug\Display.obj

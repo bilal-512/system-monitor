@@ -58,14 +58,18 @@ MonitorWorker::~MonitorWorker() {
 }
 
 void MonitorWorker::startMonitoring(int intervalMs) {
-    m_cpu.start(); // starts the internal cpu worker thread
+    m_cpu.start();
     m_timer.start(intervalMs);
-    updateData(); // immediate fetch
+    refreshNow();
 }
 
 void MonitorWorker::stopMonitoring() {
     m_timer.stop();
     m_cpu.stop();
+}
+
+void MonitorWorker::refreshNow() {
+    updateData();
 }
 
 void MonitorWorker::killProcess(uint32_t pid) {

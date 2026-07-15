@@ -29,6 +29,7 @@ public:
 public slots:
     void startMonitoring(int intervalMs = 1000);
     void stopMonitoring();
+    void refreshNow();
     void killProcess(uint32_t pid);
     void generateReport(int reportType); // 0=Daily, 1=Health, 2=CPU, 3=Mem, 4=Resource
 

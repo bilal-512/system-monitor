@@ -548,3 +548,11 @@ void MainWindow::onApplySettings() {
     m_worker->getConfig().setDouble("DiskAlertThreshold", m_diskAlertSpin->value());
     m_worker->getConfig().saveToFile("config/sysmon.ini");
 
+    m_worker->getAlertSystem().setCpuThreshold(m_cpuAlertSpin->value());
+    m_worker->getAlertSystem().setMemoryThreshold(m_memAlertSpin->value());
+    m_worker->getAlertSystem().setDiskThreshold(m_diskAlertSpin->value());
+
+    m_worker->startMonitoring(ms);
+    QMessageBox::information(this, "Settings Applied", "Settings have been successfully updated.");
+}
+
